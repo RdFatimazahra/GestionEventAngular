@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Jwt } from '../model/jwt';
 
 
-const BASE_URL  = ["http://localhost:8081/api/v1/auth/"]
+const BASE_URL  = ["http://localhost:8082/api/v1/auth/"]
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +14,11 @@ export class JwtService {
 
   register(signRequest:any): Observable<Jwt>{
     return this.http.post<Jwt>(BASE_URL+'register', signRequest)
+
+  }
+
+  registerAdmin(signRequest:any): Observable<Jwt>{
+    return this.http.post<Jwt>(BASE_URL+'registerAdmin', signRequest)
 
   }
 

@@ -18,10 +18,11 @@ export class RegisterComponent implements OnInit{
   ){ }
   ngOnInit(): void {
 this.registerForm = this.fb.group ({
-   name: ['', [Validators.required]],
+   username: ['', [Validators.required]],
    email: ['', [Validators.required , Validators.email]],
    password: ['', [Validators.required]],
    confirmPassword: ['', [Validators.required]],
+   role: ['', Validators.required],
 
 }, { Validators: this.passwordMathValidator})
   }
@@ -37,17 +38,27 @@ this.registerForm = this.fb.group ({
 
 
   }
-  submitForm(){
-    console.log(this.registerForm.value);
-    this.service.register(this.registerForm.value).subscribe(
-      (response) => {
-        console.log(response)
-        // if (response.id != null) {
-        //   alert("Hello" + response.name);
-        // }
+  submitForm() {
+    if (this.registerForm.valid) {
+      console.log(this.registerForm.value);
+      const role = this.registerForm.get('role')?.value;
+      if (role === 'ADMIN') {
+        this.service.registerAdmin(this.registerForm.value).subscribe(
+          (response) => {
+            console.log("hello Admin")
+            console.log(response);
+          }
+        );
+      } else {
+        this.service.register(this.registerForm.value).subscribe(
+          (response) => {
+            console.log("hello user");
+            console.log(response);
+  
+          }
+        );
       }
-    )
-   
+    }
   }
 
 }
